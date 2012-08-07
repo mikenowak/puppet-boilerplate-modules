@@ -18,14 +18,10 @@
 #   * This is thus destructive and should be used with care.
 #   Defaults to <tt>present</tt>.
 #
-# [*autoupgrade*]
-#   Boolean. If set to <tt>true</tt>, any managed package gets upgraded
-#   on each Puppet run when the package provider is able to find a newer
-#   version than the present one. The exact behavior is provider dependent.
-#   Q.v.:
-#   * Puppet type reference: {package, "upgradeable"}[http://j.mp/xbxmNP]
-#   * {Puppet's package provider source code}[http://j.mp/wtVCaL]
-#   Defaults to <tt>false</tt>.
+# [*version*]
+#   The package version, used in the ensure parameter of package type.
+#   Can be 'latest' or a specific version number.
+#   Defaults to <tt>present</tt>.
 #
 # [*template*]
 #   String to define the path for the template to use as content for main
@@ -69,7 +65,7 @@
 #
 class boilerplate(
   $ensure                 = params_lookup('ensure'),
-  $autoupgrade            = params_lookup('autoupgrade'),
+  $version                = params_lookup('version'),
   $template               = params_lookup('template'),
   $options                = params_lookup('options')
 ) inherits boilerplate::params {
@@ -81,10 +77,6 @@ class boilerplate(
     fail("\"${ensure}\" is not a valid ensure parameter value")
   }
 
-  # autoupgrade
-  validate_bool($autoupgrade)
-
-
 
   #### Manage actions
 
@@ -95,7 +87,6 @@ class boilerplate(
   class { 'boilerplate::config': }
 
 
-
   #### Manage relationships
 
   if $ensure == 'present' {
@@ -103,5 +94,4 @@ class boilerplate(
     Class['boilerplate::package'] -> Class['boilerplate::config']
 
   } 
-
 }

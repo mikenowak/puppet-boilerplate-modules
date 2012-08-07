@@ -34,8 +34,8 @@ class boilerplate::params {
   # ensure
   $ensure = 'present'
 
-  # autoupgrade
-  $autoupgrade = false
+  # version
+  $version = 'present'
 
   # template file
   $template = 'FIXME/TODO'
