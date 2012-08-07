@@ -19,7 +19,7 @@ describe 'boilerplate', :type => 'class' do
   redhatish_config_owner = 'root'
   redhatish_config_group = 'root'
 
-  unknown             = [ 'Foobar' ]
+  unknown                = [ 'Foobar' ]
 
 
   describe 'Test installation' do

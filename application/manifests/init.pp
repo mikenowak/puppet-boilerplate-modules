@@ -59,6 +59,7 @@
 #       }
 #     }
 #
+#
 # === Authors
 #
 # * John Doe <mailto:john.doe@example.com>
@@ -92,6 +93,5 @@ class boilerplate(
   if $ensure == 'present' {
     # we need the software before configuring it
     Class['boilerplate::package'] -> Class['boilerplate::config']
-
-  } 
+  }
 }

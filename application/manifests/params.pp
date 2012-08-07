@@ -43,6 +43,7 @@ class boilerplate::params {
   # options
   $options = ''
 
+
   #### Internal module values
 
   # packages
