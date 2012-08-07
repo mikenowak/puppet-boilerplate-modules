@@ -37,9 +37,6 @@ class boilerplate::params {
   # autoupgrade
   $autoupgrade = false
 
-  # service status
-  $status = 'enabled'
-
   # template file
   $template = 'FIXME/TODO'
 
