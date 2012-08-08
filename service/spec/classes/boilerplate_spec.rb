@@ -34,12 +34,10 @@ describe 'boilerplate', :type => 'class' do
         let(:facts) { {:operatingsystem => os } }
 
         it { should contain_package("#{debianish_package}").with_ensure('present') }
-        it { should contain_file("#{debianish_config_path}").with(
-          'ensure' => 'present',
-          'mode'   => "#{debianish_config_mode}",
-          'owner'  => "#{debianish_config_owner}",
-          'group'  => "#{debianish_config_group}",
-        ) }
+        it { should contain_file("#{debianish_config_path}").with_ensure('present') }
+        it { should contain_file("#{debianish_config_path}").with_mode("#{debianish_config_mode}") }
+        it { should contain_file("#{debianish_config_path}").with_owner("#{debianish_config_owner}") }
+        it { should contain_file("#{debianish_config_path}").with_group("#{debianish_config_group}") }
         it { should contain_service("#{debianish_service}").with_ensure('running') }
         it { should contain_service("#{debianish_service}").with_enable('true') }
         it 'should allow version to be overridden to a specific version number' do
@@ -85,12 +83,10 @@ describe 'boilerplate', :type => 'class' do
         let(:facts) { {:operatingsystem => os } }
 
         it { should contain_package("#{redhatish_package}").with_ensure('present') }
-        it { should contain_file("#{redhatish_config_path}").with(
-          'ensure' => 'present',
-          'mode'   => "#{redhatish_config_mode}",
-          'owner'  => "#{redhatish_config_owner}",
-          'group'  => "#{redhatish_config_group}",
-        ) }
+        it { should contain_file("#{debianish_config_path}").with_ensure('present') }
+        it { should contain_file("#{debianish_config_path}").with_mode("#{debianish_config_mode}") }
+        it { should contain_file("#{debianish_config_path}").with_owner("#{debianish_config_owner}") }
+        it { should contain_file("#{debianish_config_path}").with_group("#{debianish_config_group}") }
         it { should contain_service("#{redhatish_service}").with_ensure('running') }
         it { should contain_service("#{redhatish_service}").with_enable('true') }
         it 'should allow version to be overridden to a specific version number' do
