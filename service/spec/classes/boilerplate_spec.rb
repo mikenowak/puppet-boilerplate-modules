@@ -6,22 +6,22 @@ describe 'boilerplate', :type => 'class' do
   let(:node) { 'puppetdev.casanowak.com' }
 
   debianish              = [ 'Debian', 'Ubuntu' ]
-  debianish_package      = '[TODO/FIXME]'
-  debianish_config_path  = '[TODO/FIXME]'
+  debianish_package      = '[FIXME/TODO]'
+  debianish_config_path  = '[FIXME/TODO]'
   debianish_config_mode  = '0600'
   debianish_config_owner = 'root'
   debianish_config_group = 'root'
 
-  debianish_service      = '[TODO/FIXME]'
+  debianish_service      = '[FIXME/TODO]'
 
   redhatish              = [ 'RedHat', 'CentOS', 'Fedora' ]
-  redhatish_package      = '[TODO/FIXME]'
-  redhatish_config_path  = '[TODO/FIXME]'
+  redhatish_package      = '[FIXME/TODO]'
+  redhatish_config_path  = '[FIXME/TODO]'
   redhatish_config_mode  = '0600'
   redhatish_config_owner = 'root'
   redhatish_config_group = 'root'
 
-  redhatish_service      = '[TODO/FIXME]'
+  redhatish_service      = '[FIXME/TODO]'
 
   unknown                = [ 'Foobar' ]
 
