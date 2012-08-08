@@ -18,14 +18,10 @@
 #   * This is thus destructive and should be used with care.
 #   Defaults to <tt>present</tt>.
 #
-# [*autoupgrade*]
-#   Boolean. If set to <tt>true</tt>, any managed package gets upgraded
-#   on each Puppet run when the package provider is able to find a newer
-#   version than the present one. The exact behavior is provider dependent.
-#   Q.v.:
-#   * Puppet type reference: {package, "upgradeable"}[http://j.mp/xbxmNP]
-#   * {Puppet's package provider source code}[http://j.mp/wtVCaL]
-#   Defaults to <tt>false</tt>.
+# [*version*]
+#   The package version, used in the ensure parameter of package type.
+#   Can be 'latest' or a specific version number.
+#   Defaults to <tt>present</tt>.
 #
 # [*status*]
 #   String to define the status of the service. Possible values:
@@ -47,7 +43,7 @@
 # [*template*]
 #   String to define the path for the template to use as content for main
 #   configuration file.
-#   Defaults to <tt>boilerplate/[FIXME/TODO]</tt>.
+#   Defaults to <tt>boilerplate/[FIXME/TODO].erb</tt>.
 #
 # [*options*]
 #   An hash of custom options to be used in templates for arbitrary settings.
@@ -67,23 +63,19 @@
 #       ensure => 'absent',
 #     }
 #
-# * Install everything but disable service(s) afterwards:
-#     class { 'boilerplate':
-#       status => 'disabled',
-#     }
-#
 # * Install everything and use a custom template for the config file:
 #     class { 'boilerplate':
-#       template => 'site/boilerplated_config.erb',
+#       template => 'site/config.erb',
 #     }
 #
 # * Install everything and set options in the config file:
+# [FIXME/TODO] PROVIDE SOME EXAMPLES
 #     class { 'boilerplate':
 #       options => {
-#         'PasswordAuthentication' => 'yes',
-#         'LogLevel'               => 'DEBUG',
+#         'debug' => '1',
 #       }
 #     }
+#
 #
 # === Authors
 #
@@ -91,7 +83,7 @@
 #
 class boilerplate(
   $ensure                 = params_lookup('ensure'),
-  $autoupgrade            = params_lookup('autoupgrade'),
+  $version                = params_lookup('version'),
   $status                 = params_lookup('status'),
   $template               = params_lookup('template'),
   $options                = params_lookup('options')
@@ -104,14 +96,10 @@ class boilerplate(
     fail("\"${ensure}\" is not a valid ensure parameter value")
   }
 
-  # autoupgrade
-  validate_bool($autoupgrade)
-
   # service status
   if ! ($status in [ 'enabled', 'disabled', 'running', 'unmanaged' ]) {
     fail("\"${status}\" is not a valid status parameter value")
   }
-
 
 
   #### Manage actions
@@ -126,7 +114,6 @@ class boilerplate(
   class { 'boilerplate::service': }
 
 
-
   #### Manage relationships
 
   if $ensure == 'present' {
@@ -136,11 +123,8 @@ class boilerplate(
     # we need the software and a working configuration before running a service
     Class['boilerplate::package'] -> Class['boilerplate::service']
     Class['boilerplate::config']  -> Class['boilerplate::service']
-
   } else {
-
     # make sure all services are getting stopped before software removal
     Class['boilerplate::service'] -> Class['boilerplate::package']
   }
-
 }

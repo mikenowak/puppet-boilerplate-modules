@@ -34,8 +34,8 @@ class boilerplate::params {
   # ensure
   $ensure = 'present'
 
-  # autoupgrade
-  $autoupgrade = false
+  # version
+  $version = 'present'
 
   # service status
   $status = 'enabled'
@@ -45,6 +45,7 @@ class boilerplate::params {
 
   # options
   $options = ''
+
 
   #### Internal module values
 
@@ -58,25 +59,6 @@ class boilerplate::params {
     }
     default: {
       fail("\"${module_name}\" provides no package default value for \"${::operatingsystem}\"")
-    }
-  }
-
-  # service parameters
-  case $::operatingsystem {
-    'RedHat', 'CentOS', 'Fedora': {
-      $service            = 'FIXME/TODO'
-      $service_hasrestart = true
-      $service_hasstatus  = true
-      $service_pattern    = $service
-    }
-    'Debian', 'Ubuntu': {
-      $service            = 'FIXME/TODO'
-      $service_hasrestart = true
-      $service_hasstatus  = true
-      $service_pattern    = $service
-    }
-    default: {
-      fail("\"${module_name}\" provides no service parameters for \"${::operatingsystem}\"")
     }
   }
 
@@ -96,6 +78,25 @@ class boilerplate::params {
     }
     default: {
       fail("\"${module_name}\" provides no config parameters for \"${::operatingsystem}\"")
+    }
+  }
+
+  # service parameters
+  case $::operatingsystem {
+    'RedHat', 'CentOS', 'Fedora': {
+      $service            = 'FIXME/TODO'
+      $service_hasrestart = true
+      $service_hasstatus  = true
+      $service_pattern    = $service
+    }
+    'Debian', 'Ubuntu': {
+      $service            = 'FIXME/TODO'
+      $service_hasrestart = true
+      $service_hasstatus  = true
+      $service_pattern    = $service
+    }
+    default: {
+      fail("\"${module_name}\" provides no service parameters for \"${::operatingsystem}\"")
     }
   }
 }

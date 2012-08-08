@@ -64,12 +64,10 @@ class boilerplate::service {
 
   # set params: removal
   } else {
-
     # make sure the service is stopped and disabled (the removal itself will be
     # done by package.pp)
     $service_ensure = 'stopped'
     $service_enable = false
-
   }
 
   # action
@@ -80,5 +78,4 @@ class boilerplate::service {
     hasrestart => $boilerplate::params::service_hasrestart,
     pattern    => $boilerplate::params::service_pattern,
   }
-
 }

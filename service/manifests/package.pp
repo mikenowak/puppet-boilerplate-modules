@@ -28,12 +28,7 @@ class boilerplate::package {
 
   # set params: in operation
   if $boilerplate::ensure == 'present' {
-
-    $package_ensure = $boilerplate::autoupgrade ? {
-      true  => 'latest',
-      false => 'present',
-    }
-
+    $package_ensure = $boilerplate::version
   # set params: removal
   } else {
     $package_ensure = 'purged'
@@ -43,5 +38,4 @@ class boilerplate::package {
   package { $boilerplate::params::package:
     ensure => $package_ensure,
   }
-
 }

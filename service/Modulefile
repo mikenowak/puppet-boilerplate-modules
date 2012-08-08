@@ -7,6 +7,7 @@ description 'UNKNOWN'
 source 'UNKNOWN'
 project_page 'UNKNOWN'
 dependency 'puppetlabs-stdlib', '>= 2.3.1'
+dependency 'example42-puppi', '>= 1.2.2'
 
 
 # Available meta data fields/methods (q.v. <http://j.mp/I92C94>):
