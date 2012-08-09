@@ -84,7 +84,7 @@ describe 'boilerplate', :type => 'class' do
         # config
         it { should contain_file("#{redhatish_config_path}").with_ensure('present') }
         it { should contain_file("#{redhatish_config_path}").with_mode("#{redhatish_config_mode}") }
-        it { should contain_file("#{redhatish_config_path}").with_owner("#{rehatish_config_owner}") }
+        it { should contain_file("#{redhatish_config_path}").with_owner("#{redhatish_config_owner}") }
         it { should contain_file("#{redhatish_config_path}").with_group("#{redhatish_config_group}") }
 
 
