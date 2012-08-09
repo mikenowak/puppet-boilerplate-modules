@@ -29,30 +29,45 @@ describe 'boilerplate', :type => 'class' do
         let(:params) { {} }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+
+        # package
         it { should contain_package("#{debianish_package}").with_ensure('present') }
+
+        # config
         it { should contain_file("#{debianish_config_path}").with_ensure('present') }
         it { should contain_file("#{debianish_config_path}").with_mode("#{debianish_config_mode}") }
         it { should contain_file("#{debianish_config_path}").with_owner("#{debianish_config_owner}") }
         it { should contain_file("#{debianish_config_path}").with_group("#{debianish_config_group}") }
-        it 'should allow version to be overridden to a specific version number' do
+
+
+        ### Parameters
+
+        # version
+        it 'should allow package version to be overridden with version => "1.2.3"' do
           params[:version] = '1.2.3'
           subject.should contain_package("#{debianish_package}").with_ensure('1.2.3')
         end
-        it 'should allow version to be overridden with to latest' do
+        it 'should allow package version to be overridden with version => "latest"' do
           params[:version] = 'latest'
           subject.should contain_package("#{debianish_package}").with_ensure('latest')
         end
+
+        # template
         it 'should allow template to be overridden' do
           params[:template] = 'boilerplate/spec.erb'
           content = catalogue.resource('file', "#{debianish_config_path}").send(:parameters)[:content]
           content.should match "value_a"
         end
+        
+        # options
         it 'should generate a template that uses a custom option' do
           params[:template] = 'boilerplate/spec.erb'
           params[:options]  = { 'opt_a' => 'value_z' }
           content = catalogue.resource('file', "#{debianish_config_path}").send(:parameters)[:content]
           content.should match "value_z"
         end
+
       end
     end
 
@@ -61,30 +76,46 @@ describe 'boilerplate', :type => 'class' do
         let(:params) { {} }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+
+        # package
         it { should contain_package("#{redhatish_package}").with_ensure('present') }
+
+        # config
         it { should contain_file("#{redhatish_config_path}").with_ensure('present') }
         it { should contain_file("#{redhatish_config_path}").with_mode("#{redhatish_config_mode}") }
         it { should contain_file("#{redhatish_config_path}").with_owner("#{rehatish_config_owner}") }
         it { should contain_file("#{redhatish_config_path}").with_group("#{redhatish_config_group}") }
-        it 'should allow version to be overridden to a specific version number' do
+
+
+        ## Parameters
+
+        # version
+        it 'should allow package version to be overridden with version => "1.2.3"' do
           params[:version] = '1.2.3'
           subject.should contain_package("#{redhatish_package}").with_ensure('1.2.3')
         end
-        it 'should allow version to be overridden with to latest' do
+        it 'should allow package version to be overridden with version => "latest"' do
           params[:version] = 'latest'
           subject.should contain_package("#{redhatish_package}").with_ensure('latest')
         end
+
+        # template
         it 'should allow template to be overridden' do
           params[:template] = 'boilerplate/spec.erb'
           content = catalogue.resource('file', "#{redhatish_config_path}").send(:parameters)[:content]
           content.should match "value_a"
         end
+
+        # options
         it 'should generate a template that uses a custom option' do
           params[:template] = 'boilerplate/spec.erb'
           params[:options]  = { 'opt_a' => 'value_z' }
           content = catalogue.resource('file', "#{redhatish_config_path}").send(:parameters)[:content]
           content.should match "value_z"
         end
+
+        # additionsa - insert here
       end
     end
 
@@ -106,7 +137,12 @@ describe 'Test uninstallation' do
         let(:params) { {:ensure => 'absent' } }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+ 
+        # package
         it { should contain_package("#{debianish_package}").with_ensure('purged') }
+
+        # config
         it { should contain_file("#{debianish_config_path}").with_ensure('absent') }
       end
     end
@@ -117,7 +153,12 @@ describe 'Test uninstallation' do
         let(:params) { {:ensure => 'absent' } }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+
+        # package
         it { should contain_package("#{redhatish_package}").with_ensure('purged') }
+
+        # config
         it { should contain_file("#{redhatish_config_path}").with_ensure('absent') }
       end
     end

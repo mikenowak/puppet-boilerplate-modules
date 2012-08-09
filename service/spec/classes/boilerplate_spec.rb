@@ -33,47 +33,70 @@ describe 'boilerplate', :type => 'class' do
         let(:params) { {} }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+
+        # package
         it { should contain_package("#{debianish_package}").with_ensure('present') }
+
+        # config
         it { should contain_file("#{debianish_config_path}").with_ensure('present') }
         it { should contain_file("#{debianish_config_path}").with_mode("#{debianish_config_mode}") }
         it { should contain_file("#{debianish_config_path}").with_owner("#{debianish_config_owner}") }
         it { should contain_file("#{debianish_config_path}").with_group("#{debianish_config_group}") }
+        it { should contain_file("#{debianish_config_path}").with_notify("#{debianish_service}") }
+
+        # service
         it { should contain_service("#{debianish_service}").with_ensure('running') }
         it { should contain_service("#{debianish_service}").with_enable('true') }
-        it 'should allow version to be overridden to a specific version number' do
+        it { should contain_service("#{debianish_service}").with_hasstatus('true') }
+        it { should contain_service("#{debianish_service}").with_hasrestart('true') }
+        it { should contain_service("#{debianish_service}").with_pattern("#{debianish_service}") }
+
+
+        ### Parameters
+        
+        # version
+        it 'should allow package version to be overridden with version => "1.2.3"' do
           params[:version] = '1.2.3'
           subject.should contain_package("#{debianish_package}").with_ensure('1.2.3')
         end
-        it 'should allow version to be overridden with to latest' do
+        it 'should allow package version to be overridden with version => "latest"' do
           params[:version] = 'latest'
           subject.should contain_package("#{debianish_package}").with_ensure('latest')
         end
-        it 'should allow status to be overridden with value disabled' do
+
+        # status
+        it 'should allow service status to be overridden with status => "disabled"' do
           params[:status] = 'disabled'
           subject.should contain_service("#{debianish_service}").with_ensure('stopped')
           subject.should contain_service("#{debianish_service}").with_enable('false')
         end
-        it 'should allow status to be overridden with value running' do
+        it 'should allow service status to be overridden with status => "running"' do
           params[:status] = 'running'
           subject.should contain_service("#{debianish_service}").with_ensure('running')
           subject.should contain_service("#{debianish_service}").with_enable('false')
         end
-        it 'should allow status to be overridden with value unmanaged' do
+        it 'should allow service status to be overridden with status => "unmanaged"' do
           params[:status] = 'unmanaged'
           subject.should contain_service("#{debianish_service}").without_ensure
           subject.should contain_service("#{debianish_service}").with_enable('false')
         end
+
+        # template
         it 'should allow template to be overridden' do
           params[:template] = 'boilerplate/spec.erb'
           content = catalogue.resource('file', "#{debianish_config_path}").send(:parameters)[:content]
           content.should match "value_a"
         end
+
+        # options
         it 'should generate a template that uses a custom option' do
           params[:template] = 'boilerplate/spec.erb'
           params[:options]  = { 'opt_a' => 'value_z' }
           content = catalogue.resource('file', "#{debianish_config_path}").send(:parameters)[:content]
           content.should match "value_z"
         end
+
       end
     end
 
@@ -82,41 +105,63 @@ describe 'boilerplate', :type => 'class' do
         let(:params) { {} }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+
+        # package
         it { should contain_package("#{redhatish_package}").with_ensure('present') }
-        it { should contain_file("#{debianish_config_path}").with_ensure('present') }
-        it { should contain_file("#{debianish_config_path}").with_mode("#{debianish_config_mode}") }
-        it { should contain_file("#{debianish_config_path}").with_owner("#{debianish_config_owner}") }
-        it { should contain_file("#{debianish_config_path}").with_group("#{debianish_config_group}") }
+
+        # config
+        it { should contain_file("#{redhatish_config_path}").with_ensure('present') }
+        it { should contain_file("#{redhatish_config_path}").with_mode("#{redhatish_config_mode}") }
+        it { should contain_file("#{redhatish_config_path}").with_owner("#{redhatish_config_owner}") }
+        it { should contain_file("#{redhatish_config_path}").with_group("#{redhatish_config_group}") }
+        it { should contain_file("#{redhatish_config_path}").with_notify("#{redhatish_service}") }
+
+        # service
         it { should contain_service("#{redhatish_service}").with_ensure('running') }
         it { should contain_service("#{redhatish_service}").with_enable('true') }
-        it 'should allow version to be overridden to a specific version number' do
+        it { should contain_service("#{redhatish_service}").with_hasstatus('true') }
+        it { should contain_service("#{redhatish_service}").with_hasrestart('true') }
+        it { should contain_service("#{redhatish_service}").with_pattern("#{redhatish_service}") }
+
+
+        ### Parameters
+
+        # version
+        it 'should allow package version to be overridden with version => "1.2.3"' do
           params[:version] = '1.2.3'
           subject.should contain_package("#{redhatish_package}").with_ensure('1.2.3')
         end
-        it 'should allow version to be overridden with to latest' do
+        it 'should allow package version to be overridden with version => "latest"' do
           params[:version] = 'latest'
           subject.should contain_package("#{redhatish_package}").with_ensure('latest')
         end
-        it 'should allow status to be overridden with value disabled' do
+
+        # status
+        it 'should allow service status to be overridden with status => "disabled"' do
           params[:status] = 'disabled'
           subject.should contain_service("#{redhatish_service}").with_ensure('stopped')
           subject.should contain_service("#{redhatish_service}").with_enable('false')
         end
-        it 'should allow status to be overridden with value running' do
+        it 'should allow service status to be overridden with status => "running"' do
           params[:status] = 'running'
           subject.should contain_service("#{redhatish_service}").with_ensure('running')
           subject.should contain_service("#{redhatish_service}").with_enable('false')
         end
-        it 'should allow status to be overridden with value unmanaged' do
+        it 'should allow service status to be overridden with status => "unmanaged"' do
           params[:status] = 'unmanaged'
           subject.should contain_service("#{redhatish_service}").without_ensure
           subject.should contain_service("#{redhatish_service}").with_enable('false')
         end
+
+        # template
         it 'should allow template to be overridden' do
           params[:template] = 'boilerplate/spec.erb'
           content = catalogue.resource('file', "#{redhatish_config_path}").send(:parameters)[:content]
           content.should match "value_a"
         end
+
+        # options
         it 'should generate a template that uses a custom option' do
           params[:template] = 'boilerplate/spec.erb'
           params[:options]  = { 'opt_a' => 'value_z' }
@@ -144,8 +189,15 @@ describe 'Test uninstallation' do
         let(:params) { {:ensure => 'absent' } }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+ 
+        # package
         it { should contain_package("#{debianish_package}").with_ensure('purged') }
+ 
+        # config
         it { should contain_file("#{debianish_config_path}").with_ensure('absent') }
+
+        # service
         it { should contain_service("#{debianish_service}").with_ensure('stopped') }
         it { should contain_service("#{debianish_service}").with_enable('false') }
       end
@@ -157,8 +209,15 @@ describe 'Test uninstallation' do
         let(:params) { {:ensure => 'absent' } }
         let(:facts) { {:operatingsystem => os } }
 
+        ### Components
+
+        # package
         it { should contain_package("#{redhatish_package}").with_ensure('purged') }
+
+        # config
         it { should contain_file("#{redhatish_config_path}").with_ensure('absent') }
+
+        # service
         it { should contain_service("#{redhatish_service}").with_ensure('stopped') }
         it { should contain_service("#{redhatish_service}").with_enable('false') }
       end
