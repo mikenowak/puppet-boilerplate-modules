@@ -43,7 +43,7 @@ describe 'boilerplate', :type => 'class' do
         it { should contain_file("#{debianish_config_path}").with_mode("#{debianish_config_mode}") }
         it { should contain_file("#{debianish_config_path}").with_owner("#{debianish_config_owner}") }
         it { should contain_file("#{debianish_config_path}").with_group("#{debianish_config_group}") }
-        it { should contain_file("#{debianish_config_path}").with_notify("#{debianish_service}") }
+        it { should contain_file("#{debianish_config_path}").with_notify("Service[#{debianish_service}]") }
 
         # service
         it { should contain_service("#{debianish_service}").with_ensure('running') }
@@ -115,7 +115,7 @@ describe 'boilerplate', :type => 'class' do
         it { should contain_file("#{redhatish_config_path}").with_mode("#{redhatish_config_mode}") }
         it { should contain_file("#{redhatish_config_path}").with_owner("#{redhatish_config_owner}") }
         it { should contain_file("#{redhatish_config_path}").with_group("#{redhatish_config_group}") }
-        it { should contain_file("#{redhatish_config_path}").with_notify("#{redhatish_service}") }
+        it { should contain_file("#{redhatish_config_path}").with_notify("Service[#{redhatish_service}]") }
 
         # service
         it { should contain_service("#{redhatish_service}").with_ensure('running') }
